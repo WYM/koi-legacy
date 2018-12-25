@@ -1,5 +1,6 @@
 import { koi } from './core/koi'
 import Plugsample from './plugin/plugsample'
+import { Director } from './theatrum/director';
 
 window.onload = function() {
     Main.run();
@@ -25,18 +26,10 @@ class Main {
             mark.anchor.y = 0.5;
             app.pixi.stage.addChild(mark);
             app.pixi.ticker.add(() => {
-                if (mark.x > app.pixi.renderer.width / 2) {
-                    mark.x -= 10;
-                } else {
-                    mark.x += 10;
-                }
-
-                if (mark.y > app.pixi.renderer.height / 2) {
-                    mark.y -= 10;
-                } else {
-                    mark.y += 10;
-                }
+                mark.rotation += .1;
             })
         });
+
+        new Director().createScript();
     }
 }
