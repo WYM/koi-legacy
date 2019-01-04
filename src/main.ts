@@ -24,7 +24,7 @@ class Main {
             mark.y = app.pixi.renderer.height / 2;
             mark.anchor.x = 0.5;
             mark.anchor.y = 0.5;
-            app.pixi.stage.addChild(mark);
+            app.player.canvas.addChild(mark);
             app.pixi.ticker.add(() => {
                 mark.rotation += .1;
             })

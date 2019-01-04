@@ -7,6 +7,8 @@ class Player {
     private m_height: number = 800;
     private m_container: HTMLElement;
 
+    public canvas: PIXI.Container;
+
     constructor() {
 
     }
@@ -22,32 +24,23 @@ class Player {
         this.m_container = container;
 
         PIXI.utils.skipHello();
-        this.app.pixi = new PIXI.Application(this.m_width, this.m_height);
+        this.app.pixi = new PIXI.Application(document.body.clientWidth, document.body.clientHeight, { autoResize: true });
         this.m_container.appendChild(this.app.pixi.view);
+
+        this.canvas = new PIXI.Container;
+        this.app.pixi.stage.addChild(this.canvas);
 
         this.onResize();
         window.onresize = () => {
+            this.app.pixi.renderer.resize(document.body.clientWidth, document.body.clientHeight);
             this.onResize();
         }
     }
 
     private onResize(): void {
-        const container = this.m_container;
-        const view = this.app.pixi.view;
-        const ratio = this.m_width / this.m_height;
-        const w = document.body.clientWidth;
-        const h = document.body.clientHeight;
-        if (w / h > ratio) {
-            container.style.top = '0';
-            container.style.left = ((w - h * ratio) / 2) + 'px';
-            view.style.height = h + 'px';
-            view.style.width = h * ratio + 'px';
-        } else {
-            container.style.top = ((h - w / ratio) / 2) + 'px';
-            container.style.left = '0';
-            view.style.height = w / ratio + 'px';
-            view.style.width = w + 'px';
-        }
+        const screenHeight = document.body.clientHeight, designHeight = this.m_height;
+        let scale = screenHeight / designHeight;
+        this.canvas.scale = new PIXI.Point(scale, scale);
     }
 
 }
